@@ -1,5 +1,4 @@
 """Generate Markov text from text files."""
-
 from random import choice
 
 
@@ -10,8 +9,10 @@ def open_and_read_file(file_path):
     the file's contents as one string of text.
     """
     opened_file=open(file_path).read() #opens files as text file
+    opened_file=opened_file.replace('\n',' ').split(' ')
+    return opened_file
+    
 
-    return opened_filed
 
 
 def make_chains(text_string):
@@ -21,7 +22,7 @@ def make_chains(text_string):
     and the value would be a list of the word(s) that follow those two
     words in the input text.
 
-    For example:
+    For example:    
 
         >>> chains = make_chains('hi there mary hi there juanita')
 
@@ -39,11 +40,33 @@ def make_chains(text_string):
         [None]
     """
 
-    chains = {}
+
+    chains={}
+    new_list=[]
+
+    for i in range(len(input_text)-2):
+        pairs=(input_text[i], input_text[i +1]) #starts are first index and moves up one to create tuple 
+        third_words=input_text[i+2] #picks the 3rd word 
+        if pairs not in chains:
+            chains[pairs]=[]
+        chains[pairs].append(third_words)
+
+    print(chains)
+
+            
+
+        
+        #chains={pairs:third_words}
+    #print(chains)
+
+    # chains[pairs]=third_words
+    # print(chains)
+    
 
     # your code goes here
 
     return chains
+
 
 
 def make_text(chains):
@@ -58,7 +81,7 @@ def make_text(chains):
 
 input_path = 'green-eggs.txt'
 
-# Open the file and turn it into one long string
+#Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
 
 # Get a Markov chain
@@ -67,4 +90,4 @@ chains = make_chains(input_text)
 # Produce random text
 random_text = make_text(chains)
 
-print(random_text)
+#print(random_text)
